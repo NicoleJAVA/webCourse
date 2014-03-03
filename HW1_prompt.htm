@@ -1,0 +1,65 @@
+<html>
+<head>
+<meta HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=big5">
+</head>
+
+<body>
+<h2 align=center>HW#1奇偶數</h2>
+<hr>
+
+<script>
+   function evenOdd() {
+	str = prompt("奇偶數判斷，請輸入一個整數)", "0");
+	c = parseFloat( str );
+	// the above was : c = parseInt( str );
+	while( !isNumber( c ) ){
+	   str = prompt("這不是一個有效的整數，請再輸入一次", "0" );
+		c = parseFloat( str );
+		// the above was : c = parseInt( str );
+	}
+	if( isEven(c) ){
+		alert( c + "是一個偶數");
+	}
+	else if( isOdd(c) ){
+		alert( c + "是一個奇數");		
+	}
+	else{
+		alert("是什麼");
+	}
+    //if( !isNumber( c ) ){
+	//	str = prompt("這不是一個有效的整數，請再輸入一次", "0" );
+	///}
+	
+	
+    function isNumber(n)
+	{
+		var intRegex = /^-?\d+$/;
+		// the above was : /^\d+$/;
+		if(intRegex.test(n)) {
+			//alert('I am an int');
+			
+		}
+		return intRegex.test(n);
+		// the above was : return n === parseInt(n);
+		// ---the above was : return n === parseFloat(n);
+    } 
+	function isEven(n) 
+	{
+		return isNumber(n) && (n % 2 == 0);
+	}
+
+	function isOdd(n)
+	{
+		return isNumber(n) && (Math.abs(n) % 2 == 1);
+	}
+	
+	
+	
+}
+</script>
+
+<a href="javascript:evenOdd()">檢查奇數或偶數</a>
+
+<hr>
+</body>
+</html>
