@@ -4,19 +4,24 @@
 </head>
 
 <body>
-<h2 align=center>HW#1案计</h2>
+<h2 align=center>HW#1 !! 案计</h2>
 <hr>
 
 <script>
    function evenOdd() {
 	str = prompt("案计耞叫块俱计)", "0");
-	c = parseFloat( str );
+	/* wrong : parse str into c before bits in str is cheked*/
+	
 	// the above was : c = parseInt( str );
-	while( !isNumber( c ) ){
+	while( !isNumber( str ) ){
 	   str = prompt("硂ぃ琌Τ俱计叫块Ω", "0" );
-		c = parseFloat( str );
+
 		// the above was : c = parseInt( str );
 	}
+	
+	c = parseInt( str );
+	/*  After str is sure to be in  /^[-]{0,1}[0-9]{1,}$/ */
+	/*  str is not parsed to integer c until str is cheked  */
 	if( isEven(c) ){
 		alert( c + "琌案计");
 	}
@@ -33,7 +38,8 @@
 	
     function isNumber(n)
 	{
-		var intRegex = /^-?\d+$/;
+		var intRegex =  /^[-]{0,1}[0-9]{1,}$/;
+		// the above was /^-?\d+$/; But not work
 		// the above was : /^\d+$/;
 		if(intRegex.test(n)) {
 			//alert('I am an int');
