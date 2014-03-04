@@ -1,0 +1,43 @@
+
+<html>
+<head>
+<meta HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=big5">
+</head>
+
+<body>
+<h2 align=center><font face="微軟正黑體">表單 / 表單控制項 : 列出所有 properties </font></h2>
+<hr>
+
+<form name=myForm action="mailto:test@cs.nthu.edu.tw" encType=text/plain method=get>
+	<p><font face="微軟正黑體">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名字：</font><input name="myname" size=10 maxlength=20 value="姓名	">
+</form>
+
+
+<script>
+	document.writeln("<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.) 表單的所有 properties <hr>");
+	for( prop in document.forms[0]	){
+		document.writeln("<br>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
+		document.writeln("form[0].<font color=#ff3399>" + prop + "</font>"  + "=" + document.forms[0][prop] );
+	}
+
+	document.writeln("<p><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.) 控制項的所有 properties <hr>");
+	for( prop in document.forms[0].myname ){
+		document.writeln("<br>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
+		document.writeln("document.forms[0].myname.<font color=#ff3399>" + prop + "</font>" + "=" + document.forms[0].myname[prop] );
+	}
+	/****************************************************/
+	//document.write('<xmp>');	
+	//document.writeln("<br><br><br>小測試<br>");
+
+	for( prop in myForm.myname ){
+		document.writeln("<br>myForm.myname." + prop + "=" + myForm.myname[prop]);
+	}
+	for( prop in  document.forms[0].myname ){
+		//document.writeln("<br>myForm.myname." + prop + "=" +  document.forms[0].myname[prop]);
+	}
+	//document.write('</xmp>');
+</script>
+
+<hr>
+</body>
+</html>
