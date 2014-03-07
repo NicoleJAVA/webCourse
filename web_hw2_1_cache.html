@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<TILTLE> §@·~ 2 </TILTLE>
+<style>
+.mainContent
+{
+	
+	text-align:center;
+	
+	/*Firefox, Chrome*/
+	line-height:300px;
+	
+	/* for IE hack*/
+	*display: block;
+	*font-size: 270px;
+}
+.mainContent img
+{
+	margin:0 auto;
+}
+
+
+</style>
+</head>
+
+<body>
+
+<script>
+albumSize = 23;
+	album = new Array();
+	for( i = 0; i < albumSize; i++ ){
+		album[i] = new Image();
+		album[i].src = "img" + i + ".jpg";
+	}
+
+curr = 0;
+
+	
+function getSrc(){
+		curr += 1; 
+		curr = curr % albumSize;
+		return(album[curr].src);
+}	
+	
+</script>
+
+<div class="mainContent" >
+<span></span>
+
+<img src="img0.jpg" align="middle" onClick="this.src=getSrc()">
+
+</div>
+
+
+
+</body>
+
+
+</html>
+
