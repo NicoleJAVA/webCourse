@@ -1,0 +1,82 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<TILTLE> Nicole Chang's 作業 2 第 2 題 五秒鐘</TILTLE>
+<style>
+.center-element
+{
+	margin:0 auto;
+	text-align:center;
+}
+</style>
+</head>
+
+<body>
+
+<script>
+flag = 0 ; /*flag==0:not during game. flag==1:during game*/
+trialCount = 0 ;
+bestRecord = 0 ;
+function start_game(btn)
+{  
+   if( flag==0 )
+   {
+      flag = 1; /* flag==1:during game*/
+      trialCount += 1;
+      btn.value="五秒後按我";
+      var time1 = new Date();
+      startAt = time1.getTime();
+   } // End if( flag==0 )
+   else if( flag==1 )
+   {
+      flag = 0; /* flag==0:not during game. */
+      //alert("flag=" + flag );
+      btn.value="開始玩遊戲";
+      var time2 = new Date();
+      endAt = time2.getTime();
+      duration = ( endAt - startAt ) / 1000;
+      currRecord = Math.abs( 5-duration );
+      document.gameForm.trialTxt.value = trialCount;
+      document.gameForm.durationTxt.value = duration;
+      document.gameForm.diffTxt.value = currRecord;
+      
+      if( trialCount > 1 )
+      { 
+         if( currRecord <= bestRecord )
+         {
+         	bestRecord = currRecord;
+         	document.gameForm.bestRecordTxt.value = bestRecord;
+         	alert("不錯喔~~你的時間感有進步,破紀錄喔!");
+         }
+         else 
+         {
+         	alert("ㄟ~~你的時間感有點遲鈍捏!");
+         }
+
+      } 
+      
+      /* The first trial : initial the best record */
+      else if( trialCount == 1 )
+      {
+      	bestRecord = currRecord;
+      	document.gameForm.bestRecordTxt.value = bestRecord;
+      }
+   } // End  else if( flag==1 )
+}
+	
+</script>
+
+	<p></p>
+	<form name="gameForm">
+	<p><input type="button" value="開始玩遊戲" id="playBtn" onclick="start_game(this)">
+	</p>
+	<p>嘗試次數<input type="text" value="0" name ="trialTxt" class="center-element"></p>
+	<p>按下時間<input type="text" value="0" name ="durationTxt"class="center-element"></p>
+	<p>相差時間<input type="text" value="0" name ="diffTxt" class="center-element"></p>
+	<p>最佳紀錄<input type="text" value="0" name ="bestRecordTxt" class="center-element"></p>
+	</form>
+</body>
+
+
+</html>
+
