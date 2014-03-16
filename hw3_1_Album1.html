@@ -17,10 +17,10 @@
 </head>
 
 <body>
-<h1 align="center">Nicole Chang's HW 3 相簿</h1>
+<h1 class=".mainContent">Nicole Chang's HW 3 相簿</h1>
 
 
-<script language="JavaScript">
+<script>
 albumArray = new Array();	
 remainTime = 5;
 NewUserPeriod = 5;
@@ -87,9 +87,9 @@ setTimeout( "show_remainTime()" , 0 );
 
 
 <form name="albumForm">
-	<input type="button" name="stop" value="停止播放" width="10" onclick="clearTimeout(timer);clearTimeout(autoTimer);clearTimeout(rTimer)">	
-	<input type="button" name="conti" value="繼續播放" width="10" onclick="clearTimeout(timer);clearTimeout(autoTimer);clearTimeout(rTimer);setTimeout(&#39;show_remainTime()&#39;,0);document.images[&#39;myImg&#39;].src=get_nextSrc()">
-	<input type="button" name="page" value="上一頁" width="10" onclick="clearTimeout(timer);clearTimeout(autoTimer);document.images[&#39;myImg&#39;].src=get_prevtSrc()"><p>
+	<input type="button" name="pauseBtn" value="Stop" width="10" onclick="clearTimeout(timer);clearTimeout(autoTimer);clearTimeout(rTimer)">	
+	<input type="button" name="playBtn" value="Play" width="10" onclick="clearTimeout(timer);clearTimeout(autoTimer);clearTimeout(rTimer);setTimeout(&#39;show_remainTime()&#39;,0);document.images[&#39;myImg&#39;].src=get_nextSrc()">
+	<input type="button" name="backBtn" value="Back" width="10" onclick="clearTimeout(timer);clearTimeout(autoTimer);document.images[&#39;myImg&#39;].src=get_prevtSrc()"><p>
 	圖片路徑：<input name="photoPath" size="30" maxlength="100" value="../NicolePic/img0.jpg">
 	輸入修改秒數：<input type="text" name="inputTxt" value="5" onchange="change_period(this.value)" ></p><p>
 	倒數<input name="remainTxt" size="30"  size="5" value="5">秒</p><p><p>
