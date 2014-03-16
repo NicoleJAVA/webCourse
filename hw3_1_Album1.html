@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=Big5">
+
+<style>
+    .mainContent
+	{
+	    text-align:center;
+	}
+	.mainContent img
+    {
+	    margin:0 auto;
+    }
+</style>
+
+</head>
+
+<body>
+<h1 align="center">Nicole Chang's HW 3 相簿</h1>
+
+
+<script language="JavaScript">
+albumArray = new Array();	
+remainTime = 5;
+NewUserPeriod = 5;
+
+timer = 0; /* onClick timer : is update when user click on the photo . It's recursive*/
+autoTimer = 0; /* 1 */
+rTimer = 0; /* 2 : rTimer is remain timer. rTimer is updated vis the recursive steps of show_remainTime() */
+albumSizze = 20;
+curr = 0;
+clickFlag = 0;
+    for ( i=0; i<albumSizze; i++ ) {
+	    albumArray[i] = new Image();	
+	    albumArray[i].src =  "../NicolePic/img" + i + ".jpg";		
+    }
+/***************/
+autoTimer = setTimeout( "document.images['myImg'].src=get_nextSrc()" , remainTime*1000 );
+setTimeout( "show_remainTime()" , 0 );
+/***********/
+
+function get_nextSrc(){
+
+	curr = curr + 1; 			
+	curr = curr % albumSizze;    
+	document.albumForm.photoPath.value = "../NicolePic/img" + curr + ".jpg";
+	remainTime = NewUserPeriod;
+	
+	timer = setTimeout( "document.images['myImg'].src=get_nextSrc() " , remainTime*1000 );
+	/* test clearTimeout(timer); */
+	clearTimeout(timer);
+	document.albumForm.clickTxt.value = timer;
+	return( albumArray[curr].src );	
+}
+
+function change_period( period )
+{
+    NewUserPeriod = period;
+
+}
+
+ 
+function show_remainTime(){
+	document.albumForm.remainTxt.value = remainTime;
+	remainTime -= 1;
+	if( remainTime == 0 ){
+	    remainTime = NewUserPeriod;	
+	}
+	rTimer = setTimeout( "show_remainTime()" , 1000);
+}
+
+/***************	
+autoTimer = setTimeout( "document.images['myImg'].src=get_nextSrc()" , remainTime*1000 );
+setTimeout( "show_remainTime()" , 0 );
+<img name="myImg" height="300" src="../NicolePic/img0.jpg" onmouseup="clearTimeout(timer);clearTimeout(autoTimer);this.src=get_nextSrc() ">
+
+/***********/
+
+
+</script>
+
+<div class=mainContent>
+<span>
+<img name="myImg" height="300" src="../NicolePic/img0.jpg" onmouseup="clearTimeout(timer);clearTimeout(autoTimer);this.src=get_nextSrc() ">
+</span>
+
+
+<form name="albumForm">
+	<input type="button" name="stop" value="停止播放" width="10" onclick="clearTimeout(timer);clearTimeout(autoTimer);clearTimeout(rTimer)">	
+	<input type="button" name="conti" value="繼續播放" width="10" onclick="clearTimeout(timer);clearTimeout(autoTimer);clearTimeout(rTimer);setTimeout(&#39;show_remainTime()&#39;,0);document.images[&#39;myImg&#39;].src=get_nextSrc()">
+	<input type="button" name="page" value="上一頁" width="10" onclick="clearTimeout(timer);clearTimeout(autoTimer);document.images[&#39;myImg&#39;].src=get_prevtSrc()"><p>
+	圖片路徑：<input name="photoPath" size="30" maxlength="100" value="../NicolePic/img0.jpg">
+	輸入修改秒數：<input type="text" name="inputTxt" value="5" onchange="change_period(this.value)" ></p><p>
+	倒數<input name="remainTxt" size="30"  size="5" value="5">秒</p><p><p>
+	每當刻意點擊，遞迴:<input name="clickTxt" value=""></p>
+	
+</p></form>
+</div>
+
+
+</body></html>
