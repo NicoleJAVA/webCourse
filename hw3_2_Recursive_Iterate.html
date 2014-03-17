@@ -1,0 +1,143 @@
+<html>
+<head>
+<meta HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=big5">
+</head>
+
+<body>
+<h2 align=center>HW 3 Recursive V.S. Iterative</h2>
+<hr>
+
+<script>
+
+time1 = new Date();
+timeMark0 = time1.getTime();
+
+function iterative( m, n )
+{
+    var m1 = 1;
+	var mn1 = 1; 
+	var n1 = 1;
+	var mn = m - n;/*Wrong ! mn = m-n*/
+	//document.write("<br>Here : "+m);
+    for( i=1; i<=m; i++ ){
+	    m1 = m1 * i; 
+		//document.write("hi");
+	}
+	
+	for( j=1; j<=mn; j++ ){
+	    mn1 = mn1 * j; 
+	}
+	
+	for( k=1; k<=n; k++ ){
+	    n1 = n1 * k;
+		/*Debug : wrong : n=n*k; correct : n1=n1*k */
+	}
+
+	    answer1 = m1 / ( mn1 * n1 );
+		
+		//document.write(answer1);
+		time2 = new Date();
+		timeMark1 = time2.getTime();
+		duration = timeMark1 - timeMark0;
+		//document.write("in recursive");
+		//document.write("<br>"+m+"&nbsp;&nbsp;&nbsp;"+answer1);
+		return answer1;
+		
+}
+
+    /*****/
+function recursive( A, B )
+{
+    if ( A==1||B==0||A==B ){
+	    //document.write("<br>Hi ");
+	    return 1;
+	} 
+	
+	if ( B==1 ){
+	    return A;
+	}
+
+	term1 = recursive( A-1, B-1 )+ recursive( A-1, B ); 
+    return term1;
+	/*****/
+}
+/*****/
+function recTime( M, N )
+{
+    if ( M==1||N==0||M==N ){
+	    return 1;
+	} 
+	if ( N==1 ){
+	    return M;
+	}
+	recTime( M-1, N-1 );
+	recTime( M-1, N ); 
+	time3 = new Date();
+	timeMark3 = time3.getTime();
+    return timeMark3 - timeMark0;
+}
+    /*****/
+array1 = new Array(20);
+arrayX = new Array(20);
+array2 = new Array(20);
+array3 = new Array(20);
+for( var loop=1; loop<=11; loop++ )
+{  
+    //document.write("ll");
+    c = loop + 9;
+	c1 = parseInt( c/2 );
+	document.write(c+"&nbsp;"+c1+"&nbsp;&nbsp;");
+    
+	a = iterative( c, c1 );
+	document.write("&nbsp;" + a +"&nbsp;" +duration+ "<Br>");
+	//document.write("<br>hhhh<br>k");
+}
+document.write("<Br><bar>");
+for( var loop2=1; loop2<=11; loop2++ )
+{  
+    //document.write("ll");
+    f = loop2 + 9;
+	f1 = parseInt( f/2, 10 );
+	document.write(f+"&nbsp;"+f1+"&nbsp;&nbsp;");
+    
+	var e = recursive( f, f1 );
+	duration2 = recTime( f, f1 );
+	document.write("&nbsp;" + e +"&nbsp;" + duration2 + "<Br>");
+	//document.write("<br>hhhh<br>k");
+}
+ 
+/*******************
+Nicole Debug 
+wrong code : 
+    if ( A==1||B==0||A==B ){
+         document.write("<br>Hi "); no matter what, shold not exit
+         return 1;
+     } 
+
+correct code : 
+    if ( A==1||B==0||A==B ){
+
+         return 1;
+     } 
+
+wrong code : 
+for( var i=1; i<=11; i+ )
+
+correct code : 
+for( var loop=1; loop<=11; loop++ )
+because value of i has already been alterd by another function
+so the javascript for-loop cannot work ! 
+
+
+/**************************/
+</script>
+<form>
+
+</form>
+
+
+
+</body>
+
+
+</html>
