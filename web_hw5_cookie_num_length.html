@@ -1,0 +1,71 @@
+	<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<TILTLE> Nicole Chang's 作業 6  第  2  題</TILTLE>
+<style>
+
+</style>
+</head>
+<body>
+
+
+<script src="cookieUtility.js"></script>
+<script>
+
+if( navigator.cookieEnabled ){
+    document.write( "已啟動 cookie<br>" );
+}
+/****************/
+count = 0;
+/**/
+function get_cookieMax(){ 
+/**/
+	for( i=0;  ; i++ ){
+		count++;	
+		setCookie( i, 1 );	
+		if( getCookie(0)==null ){
+			document.write("<Br>一個網頁最多可放" + ( count-1 ) + "個cookie<BR>");
+			break;
+		}
+	}
+/**/
+}
+
+/**/
+/************************/
+</script>
+
+<script>
+
+function get_cookieLength( ){
+	myValue = 'a'; 
+    //delete_cookie();
+    for( j=0; ; j++ ){
+        myValue += 'a';
+	    setCookie( 1, myValue );
+	    if( getCookie(1)!=myValue ){
+		    document.write( "<br>一個 Cookie 最長可包括 " + j + " 個字元<br>" );
+			break;
+		}
+    }
+}
+
+function delete_cookie(){
+
+    for( k=0; k<count; k++ ){
+	    delCookie( k ); 
+	}
+
+}
+
+
+get_cookieLength();
+get_cookieMax();
+</script>
+
+
+
+</body>
+
+
+</html>

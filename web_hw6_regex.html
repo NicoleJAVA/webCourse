@@ -1,0 +1,56 @@
+n// Request a homepage and extract its title by regular expression
+// Roger Jang, 20081115
+url = "http://mirlab.org/jang/courses/webProgramming/homework/linkExtraction/testPage4linkExtraction2.htm";
+xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
+xmlHttp.open("GET", url, false, "");
+xmlHttp.send();				// Send the request
+contents = xmlHttp.responseText;	// Get the contents
+//WScript.Echo(contents);		// Print the contents if necessary
+
+// Use regular expression to extract the title
+//re = new RegExp("<title>(.*?)<\/title>", "gi");
+// Wrong Code : reString = /(?i)<a([^>]+)>(.+?)</a>/;
+reString = /<a\s+([\s\S]*?)>([\s\S]*?)<\/a\s*>/;
+//<a(\s[^>]*)?>.*?(</a>)?
+
+//re = new RegExp("[^<]<a href(.*?)>(.*?)<\/a>(.*?)", "gi");
+//re = new RegExp('[^<]<a href="[^"]+">(.*?)<\/a>(.*?)', "i");
+//re = new RegExp('[^<]<a\\s+href\\s+=\\s+"[^"]+\\s*"\\s+>(.*?)<\\/a>(.*?)', "gi");
+//re = new RegExp("[^<]<a\\s+href(.*?)>(.*?)<\/a>(.*?)", "gi");
+
+//WScript.Echo("index = " + index);
+//WScript.Echo("title = " + RegExp.$2);
+// Wrong Code : 
+//urlReg = /<a\s+href\s+=\s+"(.*?)"\s+>.*?<\/a>/
+// Correct Code : 
+//urlReg = /<a\s+href\s*=\s*"(.*?)"\s*>.*?<\/a>.*?/;
+re = new RegExp("<a href(.*?)>(.*?)<\/a>(.*?)", "gi");
+index=contents.search(re);
+urlReg = /<a\s+href\s*=\s*"\s*(.*?)"\s*>.*?<\/a>.*?/i
+//commentReg = /<!--\s*<a\s*href.*>.*?<\/a>\s*-->/;
+//commentReg = /<!--.*-->/gi
+commentReg = /<!--\s*<a\s*href.*>.*<\/a>\s*.*-->/gi
+str = contents.match(commentReg);
+WScript.Echo( str );
+/***
+for( c=0; c<str.length; c++ ){
+    //WScript.Echo("\nstr["+c+"] is " + str[c]);
+	urlPart = urlReg.exec( str[c] );
+	WScript.Echo( "\n urlPart of str" + c + " is " + urlPart );
+	/*
+	if( str[c].match(commentReg) ){
+	    WScript.Echo("\n Comment ");
+	}
+	/**/
+ 
+ // }
+/***/ /* for-loop */ 
+//WScript.Echo("\n\nre : " + str[10] );
+//WScript.Echo("\nstr.length : " + str.length );
+/**
+re2 = new RegExp("<a href=()</a>");
+index2=contents.search(re);
+WScript.Echo("index2:" + index2 );
+WScript.Echo("title2:" + RegExp.$2);
+/**/
+
