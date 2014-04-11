@@ -12,8 +12,8 @@ function extract_TA_homework(){
     var xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
     googleurl = "https://www.google.com.tw";
     xmlHttp.open("GET", url, false, "");
-    xmlHttp.send();				// Send the request
-    contents = xmlHttp.responseText;	// Get the contents
+    xmlHttp.send();             // Send the request
+    contents = xmlHttp.responseText;    // Get the contents
 re = new RegExp("<title>(.*?)<\/title>", "gi");;
 index=contents.search(re);
 WScript.Echo("\n\nindex = " + index);
@@ -23,83 +23,96 @@ WScript.Echo("title = " + RegExp.$1);
 function delete_xmpAndComment(){
     
     xmpReg = /<xmp>.*<\/xmp>/gi
-	commentReg = /<!--\s*<a\s*href.*>.*<\/a>\s*.*-->/gi
-	xmpStr = contents.match( xmpReg );
-	//WScript.Echo( "the xmp string found is \n" + xmpStr +"\n");
+    commentReg = /<!--\s*<a\s*href.*>.*<\/a>\s*.*-->/gi
+    commentReg2 = /<!--(.*?)-->/gi
+    xmpStr = contents.match( xmpReg );
+    //WScript.Echo( "the xmp string found is \n" + xmpStr +"\n");
+    /**Original :*
     contents = contents.replace( xmpStr, "<!-- -->" );
-	//xmpStr2 = contents.match( xmpReg );
-	//WScript.Echo( "After deletion: \n" + xmpStr2 );
-	contents = contents.replace( commentReg, "<!-- -->");
+    /***/
+    contents = contents.replace( xmpStr, "" );
+    //xmpStr2 = contents.match( xmpReg );
+    //WScript.Echo( "After deletion: \n" + xmpStr2 );
+    contents = contents.replace( commentReg, "");
+    contents = contents.replace( commentReg2, "");
 }
  
 function test_urlTag(){
-    urlReg = /<a\s+href\s*=\s*"\s*(http.*?)"\s*>.*?<\/a>.*?/gi
+    urlReg = /<a\s+href\s*=\s*"\s*(http.*?)"\s*>.*?<\/a>.*?|<a\s+href\s*=\s*"\s*(http.*?)"\s*>.*?<a>.*?/gi
     addrReg = /\"(.*?)\"/  /* just the address part */
     domainReg = /mirlab\.org/
+    nameReg = /\"\s*>(.*?)<\/a>/
+    titleNoiceReg = new RegExp( '\<.*?\>', 'gi' );
     /*問號是最小比對。比對到的字串是在比對成功的情況下最短的字串*/
     str = contents.match( urlReg );
-	WScript.Echo( "\n\n\nThere are " + str.length + " matching results" );
+    WScript.Echo( "\n\n\nThere are " + str.length + " url tags" );
     urlnum = str.length;
     for( c=0; c<str.length; c++ ){
-    	/* Originally ::
-    	urlPart = urlReg.exec( str[c] ); But Nicole changes into this : */
-    	urlPart = str[c].match( addrReg );
-    	addrArray[c] = urlPart[1].replace(/^[\s　]+/,"" );
+        /* Originally ::
+        urlPart = urlReg.exec( str[c] ); But Nicole changes into this : */
+        urlPart = str[c].match( addrReg );
+        addrArray[c] = urlPart[1].replace(/^[\s　]+/,"" );
+
+        name = str[c].match( nameReg );
+        name[1] = name[1].replace( /<(.*?)>/gi, "");
+
         if ( domainReg.test( addrArray[c] ) ) {
-	        WScript.Echo( "\n" + addrArray[c] + " ==> same domain "); 
-	    /* Oh !! So stupid, Nicole finally found out the exec() does not return a "string", */
-	    /*but it returns an "array"  ! Therefore, the address is not urlPrt, but it's urlPart[1] */
+            WScript.Echo( "\n" + name[1] );
+            WScript.Echo(  addrArray[c] + " ==> same domain "); 
+        /* Oh !! So stupid, Nicole finally found out the exec() does not return a "string", */
+        /*but it returns an "array"  ! Therefore, the address is not urlPrt, but it's urlPart[1] */
         }
         else{
-        	WScript.Echo( "\n" + addrArray[c] + " ==> different domain " ); 
+            WScript.Echo( "\n" + name );
+            WScript.Echo( "\n" + addrArray[c] + " ==> different domain " ); 
         }
     }
     WScript.Echo("-----------------------\n\n");
 }
  
-function test_aTag(){    /*	two cases for aTag : (1) <a href=\jang>  (2) <a href="http.....">
-	case (2) for aTag is actually urlTag. */
+function test_aTag(){    /* two cases for aTag : (1) <a href=\jang>  (2) <a href="http.....">
+    case (2) for aTag is actually urlTag. */
     aTagReg = /<a\s*href\s*=.*>.*<\/a>/gi;
     str2 = contents.match( aTagReg );
-	WScript.Echo( "\n\nThere are " + str2.length + " matching results\n" );
+    WScript.Echo( "\n\nThere are " + str2.length + " matching results\n" );
     for( k=0; k<str2.length; k++ ){
-    	urlPart = aTagReg.exec( str2[k] );
+        urlPart = aTagReg.exec( str2[k] );
    }
 }
 
 function test_non_urlTag(){
-	//nUrlReg = /<a\s*href\s*=[^"]*>.*<\/a>/gi;
-	 //urlReg = /<a\s+href\s*=\s*"\s*(http.*?)"\s*>.*?<\/a>.*?/gi
+    //nUrlReg = /<a\s*href\s*=[^"]*>.*<\/a>/gi;
+     //urlReg = /<a\s+href\s*=\s*"\s*(http.*?)"\s*>.*?<\/a>.*?/gi
     nUrlReg = /<a\s*href\s*=\s*([^"]+)>.*?<\/a>.*?/gi;
     pathReg = /=[\s]*(.*?)[\s]*>/
     str3 = contents.match( nUrlReg );
-	WScript.Echo( "\nThere are " + str3.length + " non_url links \n" );
-	nUrlnum = str3.length;
+    WScript.Echo( "\nThere are " + str3.length + " non_url links \n" );
+    nUrlnum = str3.length;
     for( j=0; j<nUrlnum; j++ ){
 
-    	WScript.Echo( str3[j] );
+        //WScript.Echo( str3[j] );
 
-    	
-    	path = str3[j].match( pathReg );
-    	WScript.Echo( "\npath:" + path );
-    	/**
-    	nUrlArray[j] =  path[1].replace(/^[\s　]+/,"" );
-	    //WScript.Echo( "\n\n\n str3" + j + " is " + str3[j] );
-	    WScript.Echo( "\n urlPart of str3 " + j + " is " + nUrlArray[j] + " ==> same domain" );
-	    /***/
+        
+        path = str3[j].match( pathReg );
+        WScript.Echo( "\npath:" + path );
+        /**/
+        nUrlArray[j] =  path[1].replace(/^[\s　]+/,"" );
+        //WScript.Echo( "\n\n\n str3" + j + " is " + str3[j] );
+        WScript.Echo( "\n urlPart of str3 " + j + " is " + nUrlArray[j] + " ==> same domain" );
+        /***/
     }
 }
 
 function extract_title( address )
 { 
-	WScript.Echo( "\nHiiii\n" );//+ address + "---" ); 
+    WScript.Echo( "\nHiiii\n" );//+ address + "---" ); 
     titleReg = new RegExp( "<title>(.*?)<\/title>", "gi");;
-	
-	for( jj=0; jj<urlNum; jj++ ){
-		address = "http://mirlab.org/jang/courses/webProgramming/homework/linkExtraction/testPage4linkExtraction2.htm";
-		var xmlHttp = new ActiveXObject("Microsoft.XMLHTTP.4.0");
-		WScript.Echo( " 1 ");
-		xmlHttp.open("GET", address, false, "");
+    
+    for( jj=0; jj<urlNum; jj++ ){
+        address = "http://mirlab.org/jang/courses/webProgramming/homework/linkExtraction/testPage4linkExtraction2.htm";
+        var xmlHttp = new ActiveXObject("Microsoft.XMLHTTP.4.0");
+        WScript.Echo( " 1 ");
+        xmlHttp.open("GET", address, false, "");
         xmlHttp.send();
         WScript.Echo( " 1 ");
         contents2 = xmlHttp.responseText;
@@ -115,11 +128,11 @@ function extract_title( address )
 
 
 function main(){
-	extract_TA_homework();
+    extract_TA_homework();
     delete_xmpAndComment();
-	//test_aTag();
-	test_urlTag();
-	test_non_urlTag();
+    //test_aTag();
+    test_urlTag();
+    test_non_urlTag();
     //extract_title();
 }
 
